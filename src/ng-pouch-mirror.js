@@ -4,7 +4,7 @@
 
 angular.module('pouchMirror', [])
 
-  .run(function($window, $rootScope) {
+  .run(['$window', '$rootScope', function($window, $rootScope) {
     $rootScope.online = $window.navigator.onLine;
     $window.addEventListener("offline", function () {
       $rootScope.online = false;
@@ -14,9 +14,9 @@ angular.module('pouchMirror', [])
       $rootScope.online = true;
       $rootScope.$broadcast('online');
     });
-  })
+  }])
 
-  .factory('PouchMirror', function($rootScope, $q) {
+  .factory('PouchMirror', ['$rootScope', '$q', function($rootScope, $q) {
     return function(localDbName, remoteUrl, remoteOptions) {
       var memoryDb, diskDb, remoteDb, remoteSync;
       var syncing = false;
@@ -159,4 +159,4 @@ angular.module('pouchMirror', [])
       }
 
     };
-  });
+  }]);
